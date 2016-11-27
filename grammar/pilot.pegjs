@@ -40,7 +40,7 @@ Expression
 R
   = 'R' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ text:[^\n]* nl
   { return {
-      type : 'Remark',
+      instruction : 'Remark',
       conditioner : conditioner || false,
       expression : expression || false,
       content : text.join('')
@@ -50,7 +50,7 @@ R
 T
   = 'T'? _ conditioner:Conditioner? _ expression:Expression? _ ':' _ text:[^\n]* nl
   { return {
-      type : 'Type',
+      instruction : 'Type',
       conditioner : conditioner || false,
       expression : expression || false,
       content : text.join('')
@@ -61,7 +61,7 @@ A
   = 'A' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ variable:[^\n]* nl
   {
     var output = {
-      type : 'Accept',
+      instruction : 'Accept',
       conditioner : conditioner || false,
       expression : expression || false,
       variable : false
@@ -76,7 +76,7 @@ M
   {
      matches = matches.join('').split(/,\s*/);
      return {
-       type : 'Match',
+       instruction : 'Match',
        conditioner : conditioner || false,
        expression : expression || false,
        matches : matches
@@ -92,7 +92,7 @@ JM
         return label[0];
      });
      return {
-       type : 'JumpOnMatch',
+       instruction : 'JumpOnMatch',
        conditioner : conditioner || false,
        expression : expression || false,
        labels : labels
@@ -102,7 +102,7 @@ J
   = 'J' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Labl nl
   {
     return {
-      type : 'Jump',
+      instruction : 'Jump',
       conditioner : conditioner || false,
       expression : expression || false,
       label : label
@@ -114,7 +114,7 @@ E
     return {
       conditioner : conditioner || false,
       expression : expression || false,
-      type : 'End'
+      instruction : 'End'
     };
   }
 
@@ -124,7 +124,7 @@ Labl = '*' text:[^\n, \t]+
 Label
   = text:Labl nl
   { return {
-      type : 'Label',
+      instruction : 'Label',
       label : text
     };
   }
