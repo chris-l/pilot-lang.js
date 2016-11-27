@@ -42,7 +42,7 @@ Expression
   }
 
 R
-  = 'R' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ text:[^\n]* nl
+  = ('Remark'i / 'R'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ text:[^\n]* nl
   { return {
       instruction : 'Remark',
       conditioner : conditioner || false,
@@ -52,7 +52,7 @@ R
   }
 
 T
-  = 'T'? _ conditioner:Conditioner? _ expression:Expression? _ ':' _ text:[^\n]* nl
+  = ('Type'i / 'T'i) ? _ conditioner:Conditioner? _ expression:Expression? _ ':' _ text:[^\n]* nl
   { return {
       instruction : 'Type',
       conditioner : conditioner || false,
@@ -62,7 +62,7 @@ T
   }
 
 A
-  = 'A' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ variable:[^\n]* nl
+  = ('Accept'i / 'A'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ variable:[^\n]* nl
   {
     var output = {
       instruction : 'Accept',
@@ -76,7 +76,7 @@ A
     return output;
   }
 M
-  = 'M' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ matches:[^\n]* nl
+  = ('Match'i / 'M'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ matches:[^\n]* nl
   {
      matches = matches.join('').split(/,\s*/);
      return {
@@ -90,7 +90,7 @@ commas
   = _ ',' _
 
 JM
-  = 'JM' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ labels:(Labl commas?)* nl
+  = 'JM'i _ conditioner:Conditioner? _ expression:Expression? _ ':' _ labels:(Labl commas?)* nl
   {
      labels = labels.map(function (label) {
         return label[0];
@@ -103,7 +103,7 @@ JM
      };
    }
 J
-  = 'J' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Labl nl
+  = ('Jump'i / 'J'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Labl nl
   {
     return {
       instruction : 'Jump',
@@ -113,7 +113,7 @@ J
     };
   }
 E
-  = 'E' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ nl
+  = ('End'i / 'E'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ nl
   {
     return {
       conditioner : conditioner || false,
@@ -122,7 +122,7 @@ E
     };
   }
 U
-  = 'U' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Labl _ nl
+  = ('Use'i / 'U'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Labl _ nl
   {
     return {
       instruction : 'Use',
