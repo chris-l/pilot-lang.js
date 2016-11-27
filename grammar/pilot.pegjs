@@ -4,9 +4,9 @@
  */
 
 Begin
-  = Instruction*
+  = Statement*
 
-Instruction
+Statement
   = R
   / T
   / A
