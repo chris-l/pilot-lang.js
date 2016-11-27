@@ -14,6 +14,7 @@ Statement
   / JM
   / J
   / E
+  / U
   / Label
 
 Char
@@ -115,6 +116,16 @@ E
       conditioner : conditioner || false,
       expression : expression || false,
       instruction : 'End'
+    };
+  }
+U
+  = 'U' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Labl _ nl
+  {
+    return {
+      instruction : 'Use',
+      conditioner : conditioner || false,
+      expression : expression || false,
+      label : label
     };
   }
 
