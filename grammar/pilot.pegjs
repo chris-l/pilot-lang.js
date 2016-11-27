@@ -30,7 +30,10 @@ nl "newlines"
 
 
 Conditioner
-  = ('Y' / 'N')
+  = [YyNn]
+  {
+    return text().toUpperCase();
+  }
 
 Expression
   = '(' content:[^)]* ')'
