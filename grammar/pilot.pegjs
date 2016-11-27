@@ -1,3 +1,4 @@
+
 /*
  * PILOT parser
  * ==========================
@@ -39,6 +40,28 @@ Expression
   = '(' content:[^)]* ')'
   {
     return content.join('');
+  }
+
+AthruZ
+  = [a-zA-Z]
+
+LimitedChar
+  = [a-zA-Z0-9_]
+
+LimitedString
+  = LimitedChar{1,10}
+
+StringIdent
+  = ( '$' str:(AthruZ LimitedString)
+  / str:(AthruZ LimitedString) '$' )
+  {
+    return (str[0] + str[1].join('')).toLowerCase();
+  }
+
+NumericIdent
+  = '#' str:(AthruZ LimitedString)
+  {
+    return (str[0] + str[1].join('')).toLowerCase();
   }
 
 R
