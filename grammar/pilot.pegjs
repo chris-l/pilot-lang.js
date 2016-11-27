@@ -86,7 +86,7 @@ commas
   = _ ',' _
 
 JM
-  = 'JM' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ labels:(Lab commas?)* nl
+  = 'JM' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ labels:(Labl commas?)* nl
   {
      labels = labels.map(function (label) {
         return label[0];
@@ -99,7 +99,7 @@ JM
      };
    }
 J
-  = 'J' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Lab nl
+  = 'J' _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Labl nl
   {
     return {
       type : 'Jump',
@@ -118,11 +118,11 @@ E
     };
   }
 
-Lab = '*' text:[^\n, \t]+
-  { return text.join(''); }
+Labl = '*' text:[^\n, \t]+
+  { return text.join('').toLowerCase(); }
 
 Label
-  = text:Lab nl
+  = text:Labl nl
   { return {
       type : 'Label',
       label : text
