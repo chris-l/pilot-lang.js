@@ -51,20 +51,36 @@ LimitedChar
   = [a-zA-Z0-9_]
 
 LimitedString
-  = LimitedChar{1,10}
+  = str:(LimitedChar LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar?)
+  {
+    return str.join('');
+  }
+
+StringIdent2
+  =  '$' str:(AthruZ LimitedString) { return str; }
+  / str:(AthruZ LimitedString) '$' { return str; }
 
 StringIdent
-  = ( '$' str:(AthruZ LimitedString)
-  / str:(AthruZ LimitedString) '$' )
+  =  str:StringIdent2
   {
-    return (str[0] + str[1].join('')).toLowerCase();
+    return {
+      element : 'string_ident',
+      value : (str[0] + str[1]).toLowerCase()
+    };
   }
 
 NumericIdent
   = '#' str:(AthruZ LimitedString)
   {
-    return (str[0] + str[1].join('')).toLowerCase();
+    return {
+      element : 'numeric_ident',
+      value : (str[0] + str[1]).toLowerCase()
+    };
   }
+
+Identifier
+  = NumericIdent
+  / StringIdent
 
 R
   = ('Remark'i / 'R'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ text:[^\n]* nl
@@ -107,7 +123,7 @@ T
   }
 
 A
-  = ('Accept'i / 'A'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ variable:[^\n]* nl
+  = ('Accept'i / 'A'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ identifier:Identifier? nl
   {
     var output = {
       instruction : 'Accept',
