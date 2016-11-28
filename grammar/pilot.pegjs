@@ -17,6 +17,7 @@ Statement
   / J
   / E
   / U
+  / C
   / Label
 
 Text
@@ -48,7 +49,18 @@ _ "whitespace"
 nl "newlines"
   = [\n\r]*
 
+Assignment
+  = AssignmentString
 
+AssignmentString
+  = id:StringIdent _ '=' text:Text nl
+  {
+    return {
+      element : 'assignment',
+      identifier : id,
+      value : text
+    };
+  }
 
 
 Conditioner
@@ -232,6 +244,16 @@ U
       conditioner : conditioner || false,
       expression : expression || false,
       label : label
+    };
+  }
+C
+  = ('Compute'i / 'C'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ assignment:Assignment _ nl
+  {
+    return {
+      instruction : 'Compute',
+      conditioner : conditioner || false,
+      expression : expression || false,
+      assignment : assignment
     };
   }
 
