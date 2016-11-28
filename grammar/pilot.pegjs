@@ -20,7 +20,7 @@ Statement
   / Label
 
 Text
-  = txt:(Escaped / Identifier / Char)*
+  = txt:(Escaped / IdentifierText / Char)*
   {
     return txt.reduce(function (arr, x) {
       var prev = arr.length - 1;
@@ -94,17 +94,38 @@ StringIdent
     };
   }
 
-NumericIdent
+NumericIdentHash
   = '#' str:(AthruZ LimitedString)
+  { return (str[0] + str[1]).toLowerCase(); }
+
+NumericIdentPlain
+  = str:(AthruZ LimitedString)
+  { return (str[0] + str[1]).toLowerCase(); }
+
+NumericIdentText
+  = NumericIdentHash
   {
     return {
       element : 'numeric_ident',
-      value : (str[0] + str[1]).toLowerCase()
+      value : text()
+    };
+  }
+
+NumericIdent
+  = ( NumericIdentHash / NumericIdentPlain)
+  {
+    return {
+      element : 'numeric_ident',
+      value : text()
     };
   }
 
 Identifier
   = NumericIdent
+  / StringIdent
+
+IdentifierText
+  = NumericIdentText
   / StringIdent
 
 R
