@@ -44,6 +44,12 @@ Expression
     return content.join('');
   }
 
+Number
+  = [0-9]+
+  {
+    return parseInt(text(), 10);
+  }
+
 AthruZ
   = [a-zA-Z]
 
