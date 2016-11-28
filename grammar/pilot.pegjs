@@ -130,16 +130,12 @@ T
 A
   = ('Accept'i / 'A'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ identifier:Identifier? nl
   {
-    var output = {
+    return {
       instruction : 'Accept',
       conditioner : conditioner || false,
       expression : expression || false,
-      variable : false
+      identifier : identifier || false
     };
-    if (variable.length > 0) {
-      output.variable = variable.join('');
-    }
-    return output;
   }
 M
   = ('Match'i / 'M'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ matches:[^\n]* nl
