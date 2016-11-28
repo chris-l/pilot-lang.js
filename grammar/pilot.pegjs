@@ -98,7 +98,7 @@ R
   }
 
 Y
-  = ('Yes'i / 'Y'i) _ expression:Expression? _ ':' _ text:[^\n]* nl
+  = ('Yes'i / 'Y'i) _ expression:Expression? _ ':' text:[^\n]* nl
   { return {
       instruction : 'Type',
       conditioner : 'Y',
@@ -108,7 +108,7 @@ Y
   }
 
 N
-  = ('No'i / 'N'i) _ expression:Expression? _ ':' _ text:[^\n]* nl
+  = ('No'i / 'N'i) _ expression:Expression? _ ':' text:[^\n]* nl
   { return {
       instruction : 'Type',
       conditioner : 'N',
@@ -118,7 +118,7 @@ N
   }
 
 T
-  = ('Type'i / 'T'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ text:[^\n]* nl
+  = ('Type'i / 'T'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' text:[^\n]* nl
   { return {
       instruction : 'Type',
       conditioner : conditioner || false,
