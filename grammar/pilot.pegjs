@@ -10,6 +10,8 @@ Begin
 Statement
   = R
   / T
+  / Y
+  / N
   / A
   / M
   / JM
@@ -74,8 +76,28 @@ R
     }
   }
 
+Y
+  = ('Yes'i / 'Y'i) _ expression:Expression? _ ':' _ text:[^\n]* nl
+  { return {
+      instruction : 'Type',
+      conditioner : 'Y',
+      expression : expression || false,
+      text : text.join('')
+    }
+  }
+
+N
+  = ('No'i / 'N'i) _ expression:Expression? _ ':' _ text:[^\n]* nl
+  { return {
+      instruction : 'Type',
+      conditioner : 'N',
+      expression : expression || false,
+      text : text.join('')
+    }
+  }
+
 T
-  = ('Type'i / 'T'i) ? _ conditioner:Conditioner? _ expression:Expression? _ ':' _ text:[^\n]* nl
+  = ('Type'i / 'T'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ text:[^\n]* nl
   { return {
       instruction : 'Type',
       conditioner : conditioner || false,
