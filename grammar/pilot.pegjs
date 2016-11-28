@@ -193,7 +193,9 @@ A
 M
   = ('Match'i / 'M'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ matches:[^\n]* nl
   {
-     matches = matches.join('').split(/,\s*/);
+     matches = matches.join('').split(/,\s*/).map(function (match) {
+       return match.toLowerCase();
+     });
      return {
        instruction : 'Match',
        conditioner : conditioner || false,
