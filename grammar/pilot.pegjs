@@ -19,8 +19,28 @@ Statement
   / U
   / Label
 
+Text
+  = txt:(Escaped / Identifier / Char)*
+  {
+    return txt.reduce(function (arr, x) {
+      var prev = arr.length - 1;
+      if (prev > -1 && typeof x === 'string' && typeof arr[prev] === 'string') {
+        arr[prev] += x;
+        return arr;
+      }
+      arr.push(x);
+      return arr;
+    }, []);
+  }
+
+Escaped
+  = '\\' char:[\$%#\\]
+  {
+    return char;
+  }
+
 Char
-  = [a-zA-Z0-9] { return text(); }
+  = [^\n]
 
 _ "whitespace"
   = [ \t]*
@@ -98,32 +118,32 @@ R
   }
 
 Y
-  = ('Yes'i / 'Y'i) _ expression:Expression? _ ':' text:[^\n]* nl
+  = ('Yes'i / 'Y'i) _ expression:Expression? _ ':' text:Text nl
   { return {
       instruction : 'Type',
       conditioner : 'Y',
       expression : expression || false,
-      text : text.join('')
+      text : text
     }
   }
 
 N
-  = ('No'i / 'N'i) _ expression:Expression? _ ':' text:[^\n]* nl
+  = ('No'i / 'N'i) _ expression:Expression? _ ':' text:Text nl
   { return {
       instruction : 'Type',
       conditioner : 'N',
       expression : expression || false,
-      text : text.join('')
+      text : text
     }
   }
 
 T
-  = ('Type'i / 'T'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' text:[^\n]* nl
+  = ('Type'i / 'T'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' text:Text nl
   { return {
       instruction : 'Type',
       conditioner : conditioner || false,
       expression : expression || false,
-      text : text.join('')
+      text : text
     }
   }
 
