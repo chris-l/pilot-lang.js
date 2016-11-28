@@ -118,7 +118,7 @@ T
       instruction : 'Type',
       conditioner : conditioner || false,
       expression : expression || false,
-      content : text.join('')
+      text : text.join('')
     }
   }
 
