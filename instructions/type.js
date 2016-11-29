@@ -6,18 +6,17 @@ module.exports = function (instruction) {
 
   text = instruction.text.reduce(function (str, part) {
     if (typeof part === 'string') {
-      str += part;
+      return str + part;
     }
-    if (part.element === 'string_ident') {
-      str += self.identifiers.strings[part.value] || '';
+
+    switch (part.element) {
+    case 'string_ident':
+      return str + self.identifiers.strings[part.value] || '';
+    case 'numeric_ident':
+      return str + self.identifiers.numeric[part.value] || '';
+    case 'internal_ident':
+      return str + self[part.value] || '';
     }
-    if (part.element === 'numeric_ident') {
-      str += self.identifiers.numeric[part.value] || '';
-    }
-    if (part.element === 'internal_ident') {
-      str += self[part.value] || '';
-    }
-    return str;
   }, '');
 
   self.output(text);
