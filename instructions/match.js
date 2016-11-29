@@ -5,7 +5,7 @@ module.exports = function (instruction) {
   var matchesList, self = this;
 
   matchesList = instruction.matches.reduce(function (list, item, index) {
-    if (self.accept.toLowerCase().indexOf(item) > -1) {
+    if (self.answer.toLowerCase().indexOf(item) > -1) {
       list.push(index);
     }
     return list;

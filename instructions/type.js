@@ -14,6 +14,9 @@ module.exports = function (instruction) {
     if (part.element === 'numeric_ident') {
       str += self.identifiers.numeric[part.value] || '';
     }
+    if (part.element === 'internal_ident') {
+      str += self[part.value] || '';
+    }
     return str;
   }, '');
 

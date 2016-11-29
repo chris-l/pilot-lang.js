@@ -15,7 +15,7 @@ module.exports = function (instruction) {
         self.identifiers.numeric[instruction.identifier.value] = answer;
       }
     }
-    self.accept = answer;
+    self.answer = answer;
     self.waiting = false;
   });
 };

@@ -21,7 +21,7 @@ Statement
   / Label
 
 Text
-  = txt:(Escaped / IdentifierText / Char)*
+  = txt:(Escaped / InternalIdentifier / IdentifierText / Char)*
   {
     return txt.reduce(function (arr, x) {
       var prev = arr.length - 1;
@@ -38,6 +38,15 @@ Escaped
   = '\\' char:[\$%#\\]
   {
     return char;
+  }
+
+InternalIdentifier
+  = '%' id:('answer')
+  {
+    return {
+      element : 'internal_ident',
+      value : id
+    };
   }
 
 Char
