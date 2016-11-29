@@ -11,6 +11,9 @@ module.exports = function (instruction) {
     if (part.element === 'string_ident') {
       str += self.identifiers.strings[part.value] || '';
     }
+    if (part.element === 'numeric_ident') {
+      str += self.identifiers.numeric[part.value] || '';
+    }
     return str;
   }, '');
 

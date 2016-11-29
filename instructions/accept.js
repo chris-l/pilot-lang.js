@@ -10,6 +10,10 @@ module.exports = function (instruction) {
       if (instruction.identifier.element === 'string_ident') {
         self.identifiers.strings[instruction.identifier.value] = answer;
       }
+      if (instruction.identifier.element === 'numeric_ident') {
+        answer = parseInt(answer, 10);
+        self.identifiers.numeric[instruction.identifier.value] = answer;
+      }
     }
     self.accept = answer;
     self.waiting = false;

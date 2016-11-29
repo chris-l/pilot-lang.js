@@ -115,20 +115,20 @@ NumericIdentPlain
   { return (str[0] + str[1]).toLowerCase(); }
 
 NumericIdentText
-  = NumericIdentHash
+  = varName:NumericIdentHash
   {
     return {
       element : 'numeric_ident',
-      value : text()
+      value : varName
     };
   }
 
 NumericIdent
-  = ( NumericIdentHash / NumericIdentPlain)
+  = varName:( NumericIdentHash / NumericIdentPlain)
   {
     return {
       element : 'numeric_ident',
-      value : text()
+      value : varName
     };
   }
 
