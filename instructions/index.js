@@ -22,8 +22,8 @@ module.exports = function (self) {
       }
       current = ast[self.next];
       if (current && (current.conditioner === false ||
-         ((current.conditioner === 'Y' && self.matches === 1) ||
-          (current.conditioner === 'N' && self.matches === 0)))) {
+         ((current.conditioner === 'Y' && self.matched === 1) ||
+          (current.conditioner === 'N' && self.matched === 0)))) {
 
         ins = current.instruction.toLowerCase();
         if (typeof self.instructions[ins] === 'function') {

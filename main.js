@@ -4,7 +4,7 @@
 module.exports = function (input, output) {
   var obj = {
     instructions  : {},
-    matches       : 0,
+    matched       : 0,
     next          : 0,
     matchesList   : [],
     identifiers   : {

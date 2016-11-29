@@ -11,6 +11,6 @@ module.exports = function (instruction) {
     return list;
   }, []);
 
-  self.matches = matchesList.length > 0 ? 1 : 0;
+  self.matched = matchesList.length > 0 ? 1 : 0;
 };
 
