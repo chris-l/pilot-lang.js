@@ -60,6 +60,7 @@ nl "newlines"
 
 Assignment
   = AssignmentString
+  / AssignmentNumeric
 
 AssignmentString
   = id:StringIdent _ '=' text:Text nl
@@ -71,6 +72,39 @@ AssignmentString
     };
   }
 
+AssignmentNumeric
+  = id:NumericIdent _ '=' _ value:NumericExpression _ nl
+  {
+    return {
+      element     : 'assignment',
+      identifier  : id,
+      value       : value
+    };
+  }
+
+BinaryOperation
+  = left:Numeric _ operator:[+-\/\*%] _ right:NumericExpression
+  {
+    return {
+      element   : 'BinaryOperation',
+      left      : left,
+      operator  : operator,
+      right     : right
+    };
+  }
+
+NumericParens
+  = '(' _ out:NumericExpression _ ')'
+  { return out; }
+
+NumericExpression
+  = BinaryOperation
+  / Numeric
+
+Numeric
+  = NumericParens
+  / Number
+  / NumericIdent
 
 Conditioner
   = [YyNn]
