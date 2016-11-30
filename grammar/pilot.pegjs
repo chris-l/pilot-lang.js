@@ -35,7 +35,7 @@ Text
   }
 
 Escaped
-  = '\\' char:[\$%#\\]
+  = '\\' char:[^\n]
   {
     return char;
   }
