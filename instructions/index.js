@@ -43,5 +43,6 @@ module.exports = function (self) {
   self.instructions.type = require("./type.js").bind(self);
   self.instructions.match = require("./match.js").bind(self);
   self.instructions.jump = require("./jump.js").bind(self);
+  self.instructions.compute = require("./compute.js").bind(self);
 };
 
