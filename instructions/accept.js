@@ -15,6 +15,9 @@ module.exports = function (instruction) {
         self.identifiers.numeric[instruction.identifier.value] = answer;
       }
     }
+    if (!instruction.identifier && /^0-9$/.test(answer)) {
+      answer = parseInt(answer, 10);
+    }
     self.answer = answer;
     self.waiting = false;
   });

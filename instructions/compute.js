@@ -28,7 +28,7 @@ module.exports = function (instruction) {
       return binary(ele);
     }
     if (ele.element === 'numeric_ident') {
-      return self.identifiers.numeric[ele.value];
+      return self.identifiers.numeric[ele.value] || 0;
     }
   };
 
