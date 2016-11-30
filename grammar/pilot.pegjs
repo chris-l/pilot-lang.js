@@ -105,6 +105,7 @@ Numeric
   = NumericParens
   / Number
   / NumericIdent
+  / InternalIdentifier
 
 Conditioner
   = [YyNn]

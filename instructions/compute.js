@@ -30,6 +30,9 @@ module.exports = function (instruction) {
     if (ele.element === 'numeric_ident') {
       return self.identifiers.numeric[ele.value] || 0;
     }
+    if (ele.element === 'internal_ident') {
+      return self[ele.value] || 0;
+    }
   };
 
 
