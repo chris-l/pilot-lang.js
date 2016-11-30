@@ -37,7 +37,7 @@ module.exports = function (self) {
         return;
       }
     }
-    interval = setInterval(doProcess.bind(self), 10);
+    interval = setInterval(doProcess.bind(self), 0);
   };
   self.instructions.accept = require("./accept.js").bind(self);
   self.instructions.type = require("./type.js").bind(self);
