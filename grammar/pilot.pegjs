@@ -4,13 +4,16 @@
  */
 
 Begin
-  = Statement*
+  = statements:Statement*
+  {
+    return statements.reduce(function (a, b) {
+      return a.concat(b);
+    }, []);
+  }
 
 Statement
-  = R
-  / T
-  / Y
-  / N
+  = RemarkBlock
+  / TypesBlock
   / A
   / M
   / JM
@@ -194,6 +197,25 @@ R
     }
   }
 
+REmpty
+  =  _ conditioner:Conditioner? _ expression:Expression? _ ':' text:[^\n]* nl
+  { return {
+      instruction : 'Remark',
+      continuation : true,
+      content : text.join('')
+    };
+  }
+
+RemarkBlock
+  = block:(R REmpty*)
+  {
+    return (block[1] || []).reduce(function (a, b) {
+      b.conditioner = block[0].conditioner;
+      b.expression = block[0].expression;
+      return a.concat(b);
+    }, [ block[0] ]);
+  }
+
 Y
   = ('Yes'i / 'Y'i) _ expression:Expression? _ ':' text:Text nl
   { return {
@@ -222,6 +244,26 @@ T
       expression : expression || false,
       text : text
     }
+  }
+
+TEmpty
+  =  _ conditioner:Conditioner? _ expression:Expression? _ ':' text:Text nl
+  {
+    return {
+      instruction : 'Type',
+      continuation : true,
+      text : text
+    };
+  }
+
+TypesBlock
+  = block:((T / Y / N) TEmpty*)
+  {
+    return (block[1] || []).reduce(function (a, b) {
+      b.conditioner = block[0].conditioner;
+      b.expression = block[0].expression;
+      return a.concat(b);
+    }, [ block[0] ]);
   }
 
 A
