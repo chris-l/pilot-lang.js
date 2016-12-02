@@ -256,7 +256,7 @@ TH
   = ('TypeHang'i / 'TH'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' text:Text nl
   {
     return {
-      instruction : 'Type',
+      instruction : 'TypeHang',
       conditioner : conditioner || false,
       expression : expression || false,
       text : text
