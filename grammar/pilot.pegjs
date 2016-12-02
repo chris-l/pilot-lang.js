@@ -218,7 +218,9 @@ RemarkBlock
 
 Y
   = ('Yes'i / 'Y'i) _ expression:Expression? _ ':' text:Text nl
-  { return {
+  {
+    text.push("\n");
+    return {
       instruction : 'Type',
       conditioner : 'Y',
       expression : expression || false,
@@ -228,7 +230,9 @@ Y
 
 N
   = ('No'i / 'N'i) _ expression:Expression? _ ':' text:Text nl
-  { return {
+  {
+    text.push("\n");
+    return {
       instruction : 'Type',
       conditioner : 'N',
       expression : expression || false,
@@ -238,7 +242,20 @@ N
 
 T
   = ('Type'i / 'T'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' text:Text nl
-  { return {
+  {
+    text.push("\n");
+    return {
+      instruction : 'Type',
+      conditioner : conditioner || false,
+      expression : expression || false,
+      text : text
+    }
+  }
+
+TH
+  = ('TypeHang'i / 'TH'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' text:Text nl
+  {
+    return {
       instruction : 'Type',
       conditioner : conditioner || false,
       expression : expression || false,
@@ -257,11 +274,15 @@ TEmpty
   }
 
 TypesBlock
-  = block:((T / Y / N) TEmpty*)
+  = block:((T / Y / N / TH) TEmpty*)
   {
     return (block[1] || []).reduce(function (a, b) {
+      b.instruction = block[0].instruction;
       b.conditioner = block[0].conditioner;
       b.expression = block[0].expression;
+      if (b.instruction !== 'TypeHang') {
+        b.text.push("\n");
+      }
       return a.concat(b);
     }, [ block[0] ]);
   }
