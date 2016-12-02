@@ -6,6 +6,8 @@ module.exports = function (input, output) {
     instructions  : {},
     matched       : 0,
     next          : 0,
+    uselevel      : 0,
+    levels        : [],
     matchesList   : [],
     identifiers   : {
       strings : {},
