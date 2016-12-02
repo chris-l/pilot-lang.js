@@ -2,6 +2,19 @@
  * PILOT parser
  * ==========================
  */
+{
+  function reduceText(str) {
+    return str.reduce(function (arr, x) {
+      var prev = arr.length - 1;
+      if (prev > -1 && typeof x === 'string' && typeof arr[prev] === 'string') {
+        arr[prev] += x;
+        return arr;
+      }
+      arr.push(x);
+      return arr;
+    }, []);
+  }
+}
 
 Begin
   = statements:Statement*
@@ -26,15 +39,7 @@ Statement
 Text
   = txt:(Escaped / InternalIdentifier / IdentifierText / Char)*
   {
-    return txt.reduce(function (arr, x) {
-      var prev = arr.length - 1;
-      if (prev > -1 && typeof x === 'string' && typeof arr[prev] === 'string') {
-        arr[prev] += x;
-        return arr;
-      }
-      arr.push(x);
-      return arr;
-    }, []);
+    return reduceText(txt);
   }
 
 Escaped
@@ -298,18 +303,29 @@ A
     };
   }
 M
-  = ('Match'i / 'M'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ matches:[^\n]* nl
+  = ('Match'i / 'M'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ matches:(matchStr matches*) nl
   {
-     matches = matches.join('').split(/,\s*/).map(function (match) {
-       return match.toLowerCase();
-     });
+     matches[1].unshift(matches[0]);
      return {
        instruction : 'Match',
        conditioner : conditioner || false,
        expression : expression || false,
-       matches : matches
+       matches : matches[1]
      };
    }
+matchWildCard
+  = [\\*\?]
+  {
+    return { wildcard:text() };
+  }
+matchStr
+  = str:(Escaped / InternalIdentifier / IdentifierText / matchWildCard / [^,!\|\n])*
+  {
+    return reduceText(str);
+  }
+matches
+  = [,!\|] str:matchStr { return str; }
+
 commas
   = _ ',' _
 
