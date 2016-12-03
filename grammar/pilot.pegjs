@@ -49,7 +49,7 @@ Escaped
   }
 
 InternalIdentifier
-  = '%' id:('answer')
+  = '%' id:('answer' / 'left' / 'match' / 'right' / 'matches')
   {
     return {
       element : 'internal_ident',
@@ -269,7 +269,7 @@ TH
   }
 
 TEmpty
-  =  _ conditioner:Conditioner? _ expression:Expression? _ ':' text:Text nl
+  =   _ ':' text:Text nl
   {
     return {
       instruction : 'Type',

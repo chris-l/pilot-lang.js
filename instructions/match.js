@@ -12,16 +12,33 @@ module.exports = function (instruction) {
     var matchTxt, matchRegExp, splitted;
 
     matchTxt = item.reduce(function (str, part) {
+      if (part.wildcard) {
+        if (part.wildcard === '*') {
+          return str + '.*?';
+        }
+        if (part.wildcard === '?') {
+          return str + '.';
+        }
+      }
+      if (part.element) {
+        switch (part.element) {
+        case 'string_ident':
+          part = self.identifiers.strings[part.value] || '';
+          break;
+        case 'numeric_ident':
+          part = self.identifiers.numeric[part.value] || '0';
+          break;
+        case 'internal_ident':
+          part = self[part.value] || '';
+          break;
+        }
+      }
+
       if (typeof part === 'string') {
         return str + part.replace(/([\*\\\.\[\]\?])/g, '\\$1');
       }
-      if (part.wildcard === '*') {
-        return str + '.*?';
-      }
-      if (part.wildcard === '?') {
-        return str + '.';
-      }
-      return str;
+
+      return str + part;
     }, '');
 
     matchRegExp = new RegExp('(' + matchTxt + ')', 'i');
