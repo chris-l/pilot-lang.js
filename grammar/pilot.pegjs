@@ -37,7 +37,7 @@ Statement
   / Label
 
 Text
-  = txt:(Escaped / InternalIdentifier / IdentifierText / Char)*
+  = txt:(Escaped / InternalIdentifier / IdentifierText / IntraLineComment / Char)*
   {
     return reduceText(txt);
   }
@@ -59,6 +59,10 @@ InternalIdentifier
 
 Char
   = [^\n]
+
+IntraLineComment
+  = _ '//' Char*
+  { return ''; }
 
 _ "whitespace"
   = [ \t]*
@@ -222,7 +226,7 @@ RemarkBlock
   }
 
 Y
-  = ('Yes'i / 'Y'i) _ expression:Expression? _ ':' text:Text nl
+  = ('Yes'i / 'Y'i) _ expression:Expression? _ ':' text:Text IntraLineComment? nl
   {
     text.push("\n");
     return {
@@ -234,7 +238,7 @@ Y
   }
 
 N
-  = ('No'i / 'N'i) _ expression:Expression? _ ':' text:Text nl
+  = ('No'i / 'N'i) _ expression:Expression? _ ':' text:Text IntraLineComment? nl
   {
     text.push("\n");
     return {
@@ -246,7 +250,7 @@ N
   }
 
 T
-  = ('Type'i / 'T'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' text:Text nl
+  = ('Type'i / 'T'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' text:Text IntraLineComment? nl
   {
     text.push("\n");
     return {
@@ -258,7 +262,7 @@ T
   }
 
 TH
-  = ('TypeHang'i / 'TH'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' text:Text nl
+  = ('TypeHang'i / 'TH'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' text:Text IntraLineComment? nl
   {
     return {
       instruction : 'TypeHang',
@@ -269,7 +273,7 @@ TH
   }
 
 TEmpty
-  =   _ ':' text:Text nl
+  =   _ ':' text:Text IntraLineComment? nl
   {
     return {
       instruction : 'Type',
@@ -293,7 +297,7 @@ TypesBlock
   }
 
 A
-  = ('Accept'i / 'A'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ identifier:Identifier? nl
+  = ('Accept'i / 'A'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ identifier:Identifier? IntraLineComment? nl
   {
     return {
       instruction : 'Accept',
@@ -303,7 +307,7 @@ A
     };
   }
 M
-  = ('Match'i / 'M'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ matches:(matchStr matches*) nl
+  = ('Match'i / 'M'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ matches:(matchStr matches*) IntraLineComment? nl
   {
      matches[1].unshift(matches[0]);
      return {
@@ -330,7 +334,7 @@ commas
   = _ ',' _
 
 JM
-  = 'JM'i _ conditioner:Conditioner? _ expression:Expression? _ ':' _ labels:(Labl commas?)* nl
+  = 'JM'i _ conditioner:Conditioner? _ expression:Expression? _ ':' _ labels:(Labl commas?)* IntraLineComment? nl
   {
      labels = labels.map(function (label) {
         return label[0];
@@ -343,7 +347,7 @@ JM
      };
    }
 J
-  = ('Jump'i / 'J'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Labl nl
+  = ('Jump'i / 'J'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Labl IntraLineComment? nl
   {
     return {
       instruction : 'Jump',
@@ -353,7 +357,7 @@ J
     };
   }
 E
-  = ('End'i / 'E'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ nl
+  = ('End'i / 'E'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ IntraLineComment? nl
   {
     return {
       conditioner : conditioner || false,
@@ -362,7 +366,7 @@ E
     };
   }
 U
-  = ('Use'i / 'U'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Labl _ nl
+  = ('Use'i / 'U'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ label:Labl _ IntraLineComment? nl
   {
     return {
       instruction : 'Use',
@@ -372,7 +376,7 @@ U
     };
   }
 C
-  = ('Compute'i / 'C'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ assignment:Assignment _ nl
+  = ('Compute'i / 'C'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ assignment:Assignment _ IntraLineComment? nl
   {
     return {
       instruction : 'Compute',
@@ -386,7 +390,7 @@ Labl = '*' text:[^\n, \t]+
   { return text.join('').toLowerCase(); }
 
 Label
-  = text:Labl nl
+  = text:Labl IntraLineComment? nl
   { return {
       instruction : 'Label',
       label : text
