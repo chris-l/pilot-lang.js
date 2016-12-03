@@ -126,9 +126,31 @@ Conditioner
   }
 
 Expression
-  = '(' content:[^)]* ')'
+  = '(' content:ExpressionContent ')'
   {
-    return content.join('');
+    return content;
+  }
+ExpressionContent
+  = RelationalExpression
+  / val:NumericExpression { return { type : 'mathExpression', expression : val }; }
+
+RelationalOperator
+  = '='
+  / '<>'
+  / '<'
+  / '>'
+  / '<='
+  / '>='
+
+RelationalExpression
+  = left:Numeric _ operator:RelationalOperator _ right:Numeric
+  {
+    return {
+      type      : 'relationalExpression',
+      operator  : operator,
+      left      : left,
+      right     : right
+    };
   }
 
 Number
