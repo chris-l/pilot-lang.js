@@ -144,7 +144,7 @@ LimitedChar
   = [a-zA-Z0-9_]
 
 LimitedString
-  = str:(LimitedChar LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar?)
+  = str:(LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar? LimitedChar?)
   {
     return str.join('');
   }
