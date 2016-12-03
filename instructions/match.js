@@ -54,6 +54,6 @@ module.exports = function (instruction) {
     return list;
   }, []);
 
-  self.matched = matchesList.length > 0 ? 1 : 0;
+  self.matched = matchesList.length > 0 ? matchesList[0] + 1 : 0;
 };
 

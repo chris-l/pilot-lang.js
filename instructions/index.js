@@ -46,5 +46,6 @@ module.exports = function (self) {
   self.instructions.compute = require("./compute.js").bind(self);
   self.instructions.end = require("./end.js").bind(self);
   self.instructions.use = require("./use.js").bind(self);
+  self.instructions.jumponmatch = require("./jumponmatch.js").bind(self);
 };
 

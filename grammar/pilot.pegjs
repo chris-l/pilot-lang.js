@@ -49,7 +49,7 @@ Escaped
   }
 
 InternalIdentifier
-  = '%' id:('answer' / 'left' / 'match' / 'right' / 'matches')
+  = '%' id:('answer' / 'left' / 'match' / 'right' / 'matched')
   {
     return {
       element : 'internal_ident',
@@ -334,7 +334,7 @@ commas
   = _ ',' _
 
 JM
-  = 'JM'i _ conditioner:Conditioner? _ expression:Expression? _ ':' _ labels:(Labl commas?)* IntraLineComment? nl
+  = ('JumpMatch'i / 'JM'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ labels:(Labl commas?)* IntraLineComment? nl
   {
      labels = labels.map(function (label) {
         return label[0];
