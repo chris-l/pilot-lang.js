@@ -22,7 +22,7 @@ module.exports = function (self) {
       }
       current = ast[self.next];
       if (current && (current.conditioner === false ||
-         ((current.conditioner === 'Y' && self.matched === 1) ||
+         ((current.conditioner === 'Y' && self.matched > 0) ||
           (current.conditioner === 'N' && self.matched === 0)))) {
 
         ins = current.instruction.toLowerCase();
