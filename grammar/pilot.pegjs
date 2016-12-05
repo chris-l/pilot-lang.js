@@ -20,6 +20,9 @@ Begin
   = statements:Statement*
   {
     return statements.reduce(function (a, b) {
+      if (!b) {
+        return a;
+      }
       return a.concat(b);
     }, []);
   }
@@ -36,6 +39,7 @@ Statement
   / C
   / PA
   / Label
+  / NotImplemented
 
 Text
   = txt:(Escaped / InternalIdentifier / IdentifierText / IntraLineComment / Char)*
@@ -418,6 +422,9 @@ PA
       duration : duration
     };
   }
+
+NotImplemented
+  = ('CH'i / 'CA'i / 'CL'i / 'CE'i / 'PR'i / 'Problem'i / 'Link'i / 'L'i / 'System'i / 'XS'i / 'F'i / 'G'i) [^\n]* nl { return; }
 
 Labl = '*' text:[^\n, \t]+
   { return text.join('').toLowerCase(); }
