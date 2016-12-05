@@ -1,6 +1,6 @@
 /*jslint node: true, indent: 2, nomen:true */
 'use strict';
-var parser = require('../lib/pilot'),
+var parser = require('../grammar/parser'),
   check = require('../lib/checkCondition');
 
 module.exports = function (self) {
