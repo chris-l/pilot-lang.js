@@ -17,7 +17,7 @@
 }
 
 Begin
-  = statements:Statement*
+  = EmptyLine? statements:Statement*
   {
     return statements.reduce(function (a, b) {
       if (!b) {
@@ -26,6 +26,9 @@ Begin
       return a.concat(b);
     }, []);
   }
+
+EmptyLine
+  = _ nl
 
 Statement
   = RemarkBlock
