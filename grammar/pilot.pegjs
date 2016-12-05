@@ -34,6 +34,7 @@ Statement
   / E
   / U
   / C
+  / PA
   / Label
 
 Text
@@ -405,6 +406,16 @@ C
       conditioner : conditioner || false,
       expression : expression || false,
       assignment : assignment
+    };
+  }
+PA
+  = ('Pause'i / 'PA'i) _ conditioner:Conditioner? _ expression:Expression? _ ':' _ duration:Number _ IntraLineComment? nl
+  {
+    return {
+      instruction : 'Pause',
+      conditioner : conditioner || false,
+      expression : expression || false,
+      duration : duration
     };
   }
 
