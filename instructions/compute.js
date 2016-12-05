@@ -1,42 +1,10 @@
 /*jslint node:true,indent:2*/
 'use strict';
-var prepareText = require('../lib/prepareText');
+var prepareText = require('../lib/prepareText'),
+  doMath = require('../lib/math');
 
 module.exports = function (instruction) {
-  var self = this, id, value, convert, binary;
-
-  binary = function (ele) {
-    switch (ele.operator) {
-    case '+':
-      return convert(ele.left) + convert(ele.right);
-    case '-':
-      return convert(ele.left) - convert(ele.right);
-    case '*':
-      return convert(ele.left) * convert(ele.right);
-    case '/':
-      return convert(ele.left) / convert(ele.right);
-    case '%':
-      return convert(ele.left) % convert(ele.right);
-    }
-  };
-
-  convert = function (ele) {
-    if (typeof ele === 'number') {
-      return ele;
-    }
-    if (ele.element === 'BinaryOperation') {
-      return binary(ele);
-    }
-    if (ele.element === 'numeric_ident') {
-      return self.identifiers.numeric[ele.value] || 0;
-    }
-    if (ele.element === 'internal_ident') {
-      return self[ele.value] || 0;
-    }
-  };
-
-
-
+  var self = this, id, value;
 
   id = instruction.assignment.identifier;
   value = instruction.assignment.value;
@@ -47,7 +15,7 @@ module.exports = function (instruction) {
   }
 
   if (id.element === 'numeric_ident') {
-    self.identifiers.numeric[id.value] = convert(value);
+    self.identifiers.numeric[id.value] = doMath(self)(value);
   }
 };
 
