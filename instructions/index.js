@@ -1,6 +1,7 @@
 /*jslint node: true, indent: 2, nomen:true */
 'use strict';
-var parser = require('../lib/pilot');
+var parser = require('../lib/pilot'),
+  check = require('../lib/checkCondition');
 
 module.exports = function (self) {
   self.execute = function (source) {
@@ -23,7 +24,8 @@ module.exports = function (self) {
       current = ast[self.next];
       if (current && (current.conditioner === false ||
          ((current.conditioner === 'Y' && self.matched > 0) ||
-          (current.conditioner === 'N' && self.matched === 0)))) {
+          (current.conditioner === 'N' && self.matched === 0))) &&
+          (current.expression === false || check(self, current.expression))) {
 
         ins = current.instruction.toLowerCase();
         if (typeof self.instructions[ins] === 'function') {
