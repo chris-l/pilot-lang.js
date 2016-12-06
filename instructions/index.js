@@ -4,9 +4,24 @@ var parser = require('../grammar/parser'),
   check = require('../lib/checkCondition');
 
 module.exports = function (self) {
+  function init(self) {
+    self.matched       = 0;
+    self.match         = '';
+    self.left          = '';
+    self.right         = '';
+    self.next          = 0;
+    self.uselevel      = 0;
+    self.levels        = [];
+    self.matchesList   = [];
+    self.identifiers   = {
+      strings : {},
+      numeric : {}
+    };
+  }
   self.execute = function (source) {
     var ins, interval, ast;
 
+    init(self);
     ast = parser.parse(source);
     self.labels = ast.reduce(function (list, ele, index) {
       if (ele.instruction === "Label") {
