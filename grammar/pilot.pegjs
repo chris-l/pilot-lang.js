@@ -1,6 +1,9 @@
 /*
  * PILOT parser
  * ==========================
+ * The parser of this project is based on PEG formalism, and was created with peg.js.
+ * Try to copy/paste this on the online demo of pegjs (https://pegjs.org/online )
+ * to see the parser on action!
  */
 {
   function reduceText(str) {
