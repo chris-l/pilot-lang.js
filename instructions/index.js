@@ -4,7 +4,10 @@ var parser = require('../grammar/parser'),
   check = require('../lib/checkCondition');
 
 module.exports = function (self) {
+  var interval;
+
   function init(self) {
+    self.waiting       = false;
     self.matched       = 0;
     self.match         = '';
     self.left          = '';
@@ -19,9 +22,10 @@ module.exports = function (self) {
     };
   }
   self.execute = function (source) {
-    var ins, interval, ast;
+    var ins, ast;
 
     init(self);
+    clearInterval(interval);
     ast = parser.parse(source);
     self.labels = ast.reduce(function (list, ele, index) {
       if (ele.instruction === "Label") {
