@@ -137,7 +137,7 @@ Conditioner
   }
 
 Expression
-  = '(' content:ExpressionContent ')'
+  = '(' _ content:ExpressionContent _ ')'
   {
     return content;
   }
