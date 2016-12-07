@@ -15,6 +15,7 @@
   "devDependencies": {
     "browserify": "13.1.1",
     "jslint": "0.10.3",
-    "pegjs": "0.10.0"
+    "pegjs": "0.10.0",
+    "uglifyjs": "2.4.10"
   }
 }
