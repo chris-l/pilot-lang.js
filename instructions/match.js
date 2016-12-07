@@ -4,7 +4,7 @@
 module.exports = function (instruction) {
   var matchesList, self = this, answer;
 
-  answer = self.answer.toLowerCase();
+  answer = self.answer.toString().toLowerCase();
   self.left = '';
   self.match = '';
   self.right = '';
