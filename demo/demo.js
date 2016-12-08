@@ -22,7 +22,17 @@
     }
   });
 
+  area.addEventListener('paste', function (e) {
+    e.preventDefault();
+  });
+
   area.addEventListener('keypress', function (e) {
+    var chr = String.fromCharCode(e.which);
+
+    e.preventDefault();
+    area.scrollTop = area.scrollHeight;
+    area.value += chr;
+
     // Pressing enter sets "sent" as true
     if (e.which === 13) {
       sent = true;
@@ -30,7 +40,7 @@
     }
 
     // Append the char to the buffer
-    buffer += String.fromCharCode(e.which);
+    buffer += chr;
   }, false);
 
   // Print text on the textarea
