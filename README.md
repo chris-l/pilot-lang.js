@@ -14,6 +14,10 @@ The generator I used is [peg.js](https://pegjs.org).
 After creating the parser, I created a (very simple) interpreter for it. This is still unfinished,
 but is already mostly compatible with the IEEE specification, and several of the extentions added by ESR.
 
+## Demo
+
+Check the [browser version of the interpreter](https://chris-l.github.io/pilot-lang.js/).
+
 ## Use
 
 This interpreter lacks it's own input/output mechanism and instead, the function to create an instance
@@ -21,7 +25,7 @@ of the interpreter requires to pass to it a function used for input (the one use
 and another one used for output (the one used for the "Type" instructions, like T, TH, Y and N)
 
 On the `demo/` directory, there is a command line version of the interpreter that uses nodejs,
-and another html version.
+and the browser version used on the online demo.
 
 The nodejs version uses readline for intput and `process.stdout.write()` for output.
 
