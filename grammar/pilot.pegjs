@@ -154,7 +154,7 @@ RelationalOperator
   / '>='
 
 RelationalExpression
-  = left:Numeric _ operator:RelationalOperator _ right:Numeric
+  = left:Numeric _ operator:RelationalOperator _ right:NumericExpression
   {
     return {
       type      : 'relationalExpression',
