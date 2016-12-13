@@ -25,17 +25,27 @@
           <label for="code">PILOT code:</label>
           <textarea id="code" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" cols="80" rows="25">
 R  :Just a simple, silly PILOT program
-T  :What is your name?
-A  :$name
-T  :Nice to meet you, $name
+T  :This is a simple program to practice the times tables
    :
-   :Ok $name, let's get the square of a number.
 *start
-T  :Give me a number
+C  :i = 1
+T  :What number would you like to practice?
 A  :n
-C  :sqr = n * n
-T  :#n squared equals #sqr
-   :$name, do you want to square another number? (y/n)
+*loop
+T  :How much is #n × #i?
+A  :
+J (%answer = n * i) :*correct
+T  :Incorrect, try again
+J  :*loop
+*correct
+T  :Correct!
+C  :i = i + 1
+J (i &#x3E; 10) :*end
+J  :*loop
+*end
+T  :Good job!
+   :
+   :Do you want to practice another number?
 A  :
 M  :y
 JY :*start
