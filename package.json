@@ -1,6 +1,6 @@
 {
   "name": "pilot-lang.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An interpreter of the PILOT language implemented in JavaScript",
   "main": "main.js",
   "scripts": {
