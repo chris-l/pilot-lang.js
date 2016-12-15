@@ -40,15 +40,18 @@ J  :*loop
 *correct
 T  :Correct!
 C  :i = i + 1
-J (i &#x3E; 10) :*end
+J (i &#x3E; 10) :*done
 J  :*loop
-*end
+*done
 T  :Good job!
    :
-   :Do you want to practice another number?
+*ask
+T  :Do you want to practice another number? (y/n)
 A  :
-M  :y
-JY :*start
+M  :y,n
+JM :*start, *end
+J  :*ask
+*end
 T  :Bye!
 </textarea>
         </div>
