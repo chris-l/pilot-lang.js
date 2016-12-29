@@ -5,7 +5,7 @@ This is a JavaScript based interpreter for the [PILOT language](https://en.wikip
 
 After reading [an entry on the blog of Eric S Raymond](http://esr.ibiblio.org/?p=7244)
 about a compiler he wrote for this language - called [ieee-pilot](https://gitlab.com/esr/ieee-pilot) -
-and reading about his frustation parsing the PILOT code, I decided to try to write an parser, but
+and reading about his frustation parsing the PILOT code, I decided to try to write a parser, but
 using a [PEG](https://en.wikipedia.org/wiki/Parsing_expression_grammar) generator instead.
 (According to his entry, he uses [Bison](https://en.wikipedia.org/wiki/GNU_bison) on his compiler,
 and I think that back then, when he created his compiler, PEG didn't existed yet).
